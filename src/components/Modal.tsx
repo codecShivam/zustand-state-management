@@ -1,5 +1,5 @@
 import { useTodoStore } from '../utils/store';
-import { useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 
 interface ModalProps {
@@ -17,6 +17,13 @@ const Modal: React.FC<ModalProps> = ({ id, notes, setModalOpen }) => {
         setModalOpen(false);
     };
 
+    const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSave();
+        }
+    };
+
     return (
         <div className="fixed h-screen inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
             <div className="bg-white p-6 rounded-lg shadow-xl transform transition-all duration-300 ease-in-out scale-95 hover:scale-100">
@@ -29,6 +36,7 @@ const Modal: React.FC<ModalProps> = ({ id, notes, setModalOpen }) => {
                 <textarea
                     value={newNotes}
                     onChange={(e) => setNewNotes(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     placeholder="Enter your notes here..."
                     className="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 resize-none"
                     rows={6}

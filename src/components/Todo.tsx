@@ -21,7 +21,7 @@ const Todo: React.FC<TodoProps> = ({ id, title, completed, notes }) => {
 
     return (
         <>
-        <div className="flex items-start p-4 bg-white rounded-md shadow-md my-4 border-l-4 border-blue-500 transition-transform transform hover:scale-105">
+        <div className="flex items-start px-12 p-4 bg-white rounded-md shadow-md my-4 border-l-4 border-blue-500 transition-transform transform hover:scale-105">
             <CheckCircleIcon
                 className={`h-6 w-6 mr-3 cursor-pointer ${completed ? 'text-green-500' : 'text-gray-300'}`}
                 onClick={() => toggleTodo(id)}

@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { useTodoStore } from '../utils/store'
-import { PlusCircleIcon } from '@heroicons/react/20/solid'
+import { useState, KeyboardEvent } from 'react';
+import { useTodoStore } from '../utils/store';
+import { PlusCircleIcon } from '@heroicons/react/20/solid';
 
 const AddTodo: React.FC = () => {
     const [title, setTitle] = useState('');
@@ -13,12 +13,19 @@ const AddTodo: React.FC = () => {
         }
     };
 
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleAddTodo();
+        }
+    };
+
     return (
         <div className="flex mb-8 w-full max-w-xl">
             <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="Enter todo title"
                 className="flex-1 p-3 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />

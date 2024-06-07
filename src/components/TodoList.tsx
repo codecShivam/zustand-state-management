@@ -6,7 +6,7 @@ const TodoList: React.FC = () => {
   const todos = useTodoStore((state) => state.todos);
 
   return (
-    <div>
+    <div  className='overflow-y-scroll overflow-x-hidden h-full '>
       {todos.map((todo) => (
         <Todo key={todo.id} {...todo} />
       ))}
