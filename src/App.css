@@ -66,3 +66,14 @@ ul {
   border: none;
   cursor: pointer;
 }
+
+
+/* Add these styles to your global CSS or Tailwind CSS configuration */
+
+.modal {
+  z-index: 50;
+}
+
+.todo-item {
+  z-index: 10;
+}

@@ -1,5 +1,7 @@
 import { useTodoStore } from '../utils/store'
-import { CheckCircleIcon, TrashIcon } from  '@heroicons/react/20/solid'
+import { CheckCircleIcon, TrashIcon, PencilSquareIcon } from '@heroicons/react/20/solid'
+import { useState } from 'react'
+import Modal from './Modal'
 
 interface TodoProps {
     id: string;
@@ -9,12 +11,17 @@ interface TodoProps {
 }
 
 const Todo: React.FC<TodoProps> = ({ id, title, completed, notes }) => {
+    const [isModalOpen, setModalOpen] = useState(false);
     const toggleTodo = useTodoStore((state) => state.toggleTodo);
     const removeTodo = useTodoStore((state) => state.removeTodo);
-    const addNote = useTodoStore((state) => state.addNote);
+
+    const handleEditClick = () => {
+        setModalOpen(true);
+    };
 
     return (
-        <div className="flex items-start p-4 bg-white rounded-md shadow-md my-4 border-l-4 border-blue-500">
+        <>
+        <div className="flex items-start p-4 bg-white rounded-md shadow-md my-4 border-l-4 border-blue-500 transition-transform transform hover:scale-105">
             <CheckCircleIcon
                 className={`h-6 w-6 mr-3 cursor-pointer ${completed ? 'text-green-500' : 'text-gray-300'}`}
                 onClick={() => toggleTodo(id)}
@@ -23,18 +30,21 @@ const Todo: React.FC<TodoProps> = ({ id, title, completed, notes }) => {
                 <p className={`text-xl font-semibold ${completed ? 'line-through text-gray-500' : 'text-gray-900'}`}>
                     {title}
                 </p>
-                <textarea
-                    value={notes}
-                    onChange={(e) => addNote(id, e.target.value)}
-                    placeholder="Add notes..."
-                    className="w-full mt-2 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                <p className="text-gray-700 mt-2">{notes}</p>
+            </div>
+            <div className="flex items-center space-x-2">
+                <PencilSquareIcon
+                    className="h-6 w-6 text-blue-500 cursor-pointer hover:text-blue-700"
+                    onClick={handleEditClick}
+                />
+                <TrashIcon
+                    className="h-6 w-6 text-red-500 cursor-pointer hover:text-red-700"
+                    onClick={() => removeTodo(id)}
                 />
             </div>
-            <TrashIcon
-                className="h-6 w-6 ml-4 text-red-500 cursor-pointer hover:text-red-700"
-                onClick={() => removeTodo(id)}
-            />
         </div>
+            {isModalOpen && <Modal id={id} notes={notes} setModalOpen={setModalOpen} />}
+            </>
     );
 };
 
